@@ -16,7 +16,7 @@ The page is a mock “AI alignment / symbol calibration console”.
 
 It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
 
-Nothing here is real AI training—it’s a front-end simulation UI.
+# Nothing here is real AI training—it’s a front-end simulation UI.
 
 
 
