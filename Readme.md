@@ -4,11 +4,12 @@ A browser-based simulation UI for exploring symbolic alignment, drift correction
 
 Features
 
-Symbol inventory system
-Alignment strength simulation
-Drift correction mechanics
-Interactive calibration logging
-Cyberpunk-style UI dashboard
+ - Symbol inventory system
+ - Alignment strength simulation
+ - Drift correction mechanics
+ - Interactive calibration logging
+ - Cyberpunk-style UI dashboard
+
 🧠 What this project is
 
 The page is a mock “AI alignment / symbol calibration console”.
@@ -22,11 +23,12 @@ Nothing here is real AI training—it’s a front-end simulation UI.
 ✔ A simulation of:
 
 Symbol grounding
-Alignment scoring
-Drift correction
-Human feedback loop
+ - Alignment scoring
+ - Drift correction
+ - Human feedback loop
+
 ❌ But NOT:
 
-Real machine learning
-Real model training
-Real embeddings or AI memory
+ - Real machine learning
+ - Real model training
+ - Real embeddings or AI memory
