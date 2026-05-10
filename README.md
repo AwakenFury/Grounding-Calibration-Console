@@ -22,17 +22,12 @@ Nothing here is real AI training—it’s a front-end simulation UI.
 Even though it looks AI-related, it is actually:
 
 ✔ A simulation of:
-Symbol grounding
-
-Alignment scoring
-
-Drift correction
-
-Human feedback loop
+ - Symbol grounding
+ - Alignment scoring
+ - Drift correction
+ - Human feedback loop
 
 ❌ But NOT:
-Real machine learning
-
-Real model training
-
-Real embeddings or AI memory
+ - Real machine learning
+ - Real model training
+ - Real embeddings or AI memory
