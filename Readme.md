@@ -1,4 +1,4 @@
-🧠 Grounding Calibration Console
+## Grounding Calibration Console
 
 A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
@@ -10,7 +10,7 @@ Features
  - Interactive calibration logging
  - Cyberpunk-style UI dashboard
 
-🧠 What this project is
+## What this project is
 
 The page is a mock “AI alignment / symbol calibration console”.
 
