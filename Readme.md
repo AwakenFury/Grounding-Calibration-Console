@@ -34,3 +34,10 @@ Symbol grounding
  - Real machine learning
  - Real model training
  - Real embeddings or AI memory
+
+
+## Purpose
+This is a conceptual UI prototype for experimenting with:
+- semantic alignment systems
+- symbolic representation drift
+- human feedback loops
