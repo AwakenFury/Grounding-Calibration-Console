@@ -1,21 +1,24 @@
-🧠 What this project is
+ 🧠 Grounding Calibration Console
 
-The page is a mock “AI alignment / symbol calibration console”.
+A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
-It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
+Features
+- Symbol inventory system
+- Alignment strength simulation
+- Drift correction mechanics
+- Interactive calibration logging
+- Cyberpunk-style UI dashboard
 
-Nothing here is real AI training—it’s a front-end simulation UI.
+Run locally
+Just open `index.html` in a browser.
 
-What this is “conceptually”
+Structure
+- HTML: UI layout
+- CSS: cyberpunk styling
+- JS: symbolic simulation engine
 
-Even though it looks AI-related, it is actually:
-
-✔ A simulation of:
-Symbol grounding
-Alignment scoring
-Drift correction
-Human feedback loop
-❌ But NOT:
-Real machine learning
-Real model training
-Real embeddings or AI memory
+Purpose
+This is a conceptual UI prototype for experimenting with:
+- semantic alignment systems
+- symbolic representation drift
+- human feedback loops
