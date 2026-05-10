@@ -1,4 +1,4 @@
-## Grounding Calibration Console
+# Grounding Calibration Console
 
 A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
@@ -12,11 +12,11 @@ Features
 
 ## What this project is
 
-The page is a mock “AI alignment / symbol calibration console”.
+ - The page is a mock “AI alignment / symbol calibration console”.
 
-It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
+ - It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
 
-# Nothing here is real AI training—it’s a front-end simulation UI.
+ - Nothing here is real AI training—it’s a front-end simulation UI.
 
 
 
