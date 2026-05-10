@@ -18,6 +18,8 @@ It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adj
 
 Nothing here is real AI training—it’s a front-end simulation UI.
 
+
+
 🧩 What this is “conceptually” Even though it looks AI-related, it is actually:
 
 ✔ A simulation of:
