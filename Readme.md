@@ -9,7 +9,7 @@ A browser-based cybernetic simulation console for exploring:
  - Human-in-the-loop feedback control
  - Semantic stability scoring
 
-This is not an AI model.
+## This is not an AI model.
 
 It is a synthetic alignment simulation environment designed to visually and interactively mimic conceptual AI training dynamics.
 
