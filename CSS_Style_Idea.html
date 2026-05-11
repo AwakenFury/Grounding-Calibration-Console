@@ -1,0 +1,1071 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>GROUNDING CALIBRATION CONSOLE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#020510;
+  --panel:rgba(0,255,255,.06);
+  --line:rgba(0,255,255,.22);
+
+  --cyan:#00f0ff;
+  --cyanGlow:rgba(0,240,255,.45);
+
+  --magenta:#ff00aa;
+  --orange:#ff7b00;
+  --green:#00ff9c;
+  --red:#ff4466;
+
+  --text:#bffcff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+}
+
+/* =========================
+BACKGROUND
+========================= */
+
+body{
+  background:
+  radial-gradient(circle at top,#071126,#020510 55%,#000 100%);
+  position:relative;
+}
+
+/* animated grid */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+  linear-gradient(rgba(0,255,255,.06) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0,255,255,.06) 1px, transparent 1px);
+
+  background-size:40px 40px;
+
+  animation:gridMove 18s linear infinite;
+
+  opacity:.25;
+  pointer-events:none;
+}
+
+@keyframes gridMove{
+  0%{
+    transform:translateY(0px);
+  }
+  100%{
+    transform:translateY(40px);
+  }
+}
+
+/* scanlines */
+
+.scanlines{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+
+  background:
+  repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.02),
+    rgba(255,255,255,.02) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity:.18;
+  mix-blend-mode:screen;
+}
+
+/* animated scanner */
+
+.scanner{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.scanner::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  height:160px;
+
+  background:linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0,240,255,.12),
+    transparent
+  );
+
+  animation:scan 7s linear infinite;
+}
+
+@keyframes scan{
+  0%{
+    transform:translateY(-200px);
+  }
+  100%{
+    transform:translateY(100vh);
+  }
+}
+
+/* =========================
+BOOT SCREEN
+========================= */
+
+#boot{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  font-family:'Orbitron',sans-serif;
+}
+
+.bootText{
+  color:var(--cyan);
+  font-size:18px;
+  letter-spacing:2px;
+  margin:6px 0;
+
+  text-shadow:0 0 10px var(--cyanGlow);
+}
+
+.bootSmall{
+  opacity:.7;
+  font-size:13px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* =========================
+MAIN LAYOUT
+========================= */
+
+#app{
+  display:none;
+  height:100vh;
+  padding:12px;
+}
+
+header{
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.4);
+
+  border-radius:12px;
+
+  padding:16px;
+  margin-bottom:12px;
+
+  backdrop-filter:blur(8px);
+
+  box-shadow:
+  0 0 20px rgba(0,240,255,.08),
+  inset 0 0 20px rgba(0,240,255,.04);
+}
+
+.title{
+  font-family:'Orbitron',sans-serif;
+  font-size:30px;
+  color:var(--cyan);
+
+  text-shadow:0 0 15px rgba(0,240,255,.5);
+}
+
+.sub{
+  margin-top:6px;
+  opacity:.8;
+  font-size:14px;
+}
+
+#wrap{
+  display:grid;
+  grid-template-columns:320px 1fr 360px;
+  gap:12px;
+  height:calc(100vh - 130px);
+}
+
+.panel{
+  border:1px solid var(--line);
+  background:var(--panel);
+
+  border-radius:14px;
+  padding:14px;
+
+  backdrop-filter:blur(10px);
+
+  position:relative;
+
+  overflow:hidden;
+
+  box-shadow:
+  0 0 25px rgba(0,240,255,.08),
+  inset 0 0 20px rgba(0,240,255,.03);
+}
+
+/* glowing corner */
+
+.panel::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+
+  width:80px;
+  height:2px;
+
+  background:var(--cyan);
+
+  box-shadow:0 0 15px var(--cyanGlow);
+}
+
+.panel::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+
+  width:2px;
+  height:80px;
+
+  background:var(--cyan);
+
+  box-shadow:0 0 15px var(--cyanGlow);
+}
+
+h3{
+  margin:0 0 12px;
+  font-size:18px;
+  color:var(--cyan);
+
+  font-family:'Orbitron',sans-serif;
+}
+
+/* =========================
+SYMBOL TOKENS
+========================= */
+
+.token{
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.25);
+
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+.token:hover,
+.token.active{
+  border-color:var(--cyan);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+  0 0 15px rgba(0,240,255,.18),
+  inset 0 0 12px rgba(0,240,255,.08);
+}
+
+.small{
+  font-size:13px;
+  opacity:.82;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin:10px 0;
+}
+
+/* =========================
+INPUTS
+========================= */
+
+input,
+textarea{
+  width:100%;
+
+  background:#01141b;
+  color:var(--text);
+
+  border:1px solid var(--line);
+
+  border-radius:8px;
+  padding:10px;
+
+  outline:none;
+
+  transition:.2s;
+}
+
+input:focus,
+textarea:focus{
+  border-color:var(--cyan);
+
+  box-shadow:0 0 12px rgba(0,240,255,.2);
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+button{
+  border:1px solid var(--cyan);
+
+  background:rgba(0,255,255,.04);
+
+  color:var(--cyan);
+
+  padding:10px;
+
+  border-radius:8px;
+
+  cursor:pointer;
+
+  font-family:'Rajdhani',sans-serif;
+  font-size:15px;
+  font-weight:600;
+
+  transition:.2s;
+}
+
+button:hover{
+  background:var(--cyan);
+  color:#001018;
+
+  box-shadow:0 0 15px rgba(0,240,255,.4);
+}
+
+/* =========================
+ALIGNMENT BAR
+========================= */
+
+.bar{
+  height:18px;
+
+  background:#01141b;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.fill{
+  height:100%;
+  width:0%;
+
+  transition:.3s;
+}
+
+/* =========================
+METRICS
+========================= */
+
+.kpi{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.metric{
+  border:1px solid var(--line);
+
+  border-radius:10px;
+  padding:10px;
+
+  background:rgba(0,0,0,.2);
+}
+
+.big{
+  margin-top:6px;
+  font-size:24px;
+  color:var(--cyan);
+
+  text-shadow:0 0 10px rgba(0,240,255,.35);
+}
+
+/* =========================
+LOGS
+========================= */
+
+.log{
+  max-height:420px;
+  overflow:auto;
+
+  border-top:1px solid rgba(255,255,255,.08);
+
+  margin-top:12px;
+  padding-top:10px;
+}
+
+.entry{
+  padding:10px;
+  margin-bottom:8px;
+
+  border-radius:8px;
+
+  background:rgba(255,255,255,.03);
+
+  border-left:3px solid var(--cyan);
+}
+
+.tag{
+  display:inline-block;
+
+  padding:2px 6px;
+  margin-right:6px;
+
+  border-radius:999px;
+
+  font-size:11px;
+  font-weight:bold;
+
+  color:#001018;
+}
+
+.good{
+  background:var(--green);
+}
+
+.warn{
+  background:var(--orange);
+}
+
+.bad{
+  background:var(--red);
+}
+
+/* =========================
+TERMINAL
+========================= */
+
+#terminal{
+  margin-top:12px;
+
+  border:1px solid var(--line);
+
+  background:#01070c;
+
+  border-radius:10px;
+
+  padding:10px;
+
+  height:140px;
+
+  overflow:auto;
+
+  font-size:13px;
+}
+
+.termLine{
+  margin-bottom:6px;
+  color:#8df5ff;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+  #wrap{
+    grid-template-columns:1fr;
+    overflow:auto;
+  }
+
+  body{
+    overflow:auto;
+  }
+
+  #app{
+    height:auto;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="scanlines"></div>
+<div class="scanner"></div>
+
+<!-- ======================
+BOOT SCREEN
+====================== -->
+
+<div id="boot">
+
+  <div class="bootText">INITIALIZING CALIBRATION CORE...</div>
+  <div class="bootText">LOADING SEMANTIC MATRICES...</div>
+  <div class="bootText">SYNCING HUMAN FEEDBACK CHANNELS...</div>
+  <div class="bootText">NEURAL INTERFACE ONLINE...</div>
+
+  <div class="bootSmall">
+    HUMAN-IN-THE-LOOP ALIGNMENT SYSTEM
+  </div>
+
+</div>
+
+<!-- ======================
+APP
+====================== -->
+
+<div id="app">
+
+<header>
+
+  <div class="title">
+    🧠 GROUNDING CALIBRATION CONSOLE
+  </div>
+
+  <div class="sub">
+    Human-in-the-loop semantic alignment • Drift correction • Symbol grounding • Neural calibration
+  </div>
+
+</header>
+
+<div id="wrap">
+
+  <!-- LEFT -->
+  <div class="panel">
+
+    <h3>🔤 SYMBOL INVENTORY</h3>
+
+    <div id="symbols"></div>
+
+    <button onclick="addSymbol()">
+      + ADD SYMBOL
+    </button>
+
+    <div id="terminal">
+
+      <div class="termLine">
+        > semantic channel online
+      </div>
+
+      <div class="termLine">
+        > neural grounding active
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CENTER -->
+  <div class="panel">
+
+    <h3>🎯 CALIBRATION WORKSPACE</h3>
+
+    <div class="row">
+      <div style="width:140px">SELECTED SYMBOL</div>
+      <div id="selectedName">NONE</div>
+    </div>
+
+    <div class="row">
+      <div style="width:140px">CURRENT MEANING</div>
+      <input id="meaningInput" type="text">
+    </div>
+
+    <div class="row">
+      <div style="width:140px">DESIRED MEANING</div>
+      <input id="desiredInput" type="text">
+    </div>
+
+    <div class="row">
+      <div style="width:140px">BEHAVIOR EXAMPLE</div>
+      <textarea id="exampleInput"></textarea>
+    </div>
+
+    <div class="grid2">
+
+      <button onclick="approve()">
+        ✅ REINFORCE
+      </button>
+
+      <button onclick="correct()">
+        ⚡ CORRECT DRIFT
+      </button>
+
+      <button onclick="penalize()">
+        🚫 PENALIZE
+      </button>
+
+      <button onclick="simulate()">
+        🧪 SIMULATE
+      </button>
+
+    </div>
+
+    <h3 style="margin-top:18px">
+      📈 ALIGNMENT STRENGTH
+    </h3>
+
+    <div class="bar">
+      <div class="fill" id="alignBar"></div>
+    </div>
+
+    <div id="alignText" class="small">
+      0%
+    </div>
+
+    <h3 style="margin-top:18px">
+      🧠 GENERATED INTERPRETATION
+    </h3>
+
+    <textarea id="preview" readonly></textarea>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="panel">
+
+    <h3>📊 SYSTEM HEALTH</h3>
+
+    <div class="kpi">
+
+      <div class="metric">
+        DRIFT RISK
+        <div class="big" id="drift">22%</div>
+      </div>
+
+      <div class="metric">
+        CONSENSUS
+        <div class="big" id="consensus">81%</div>
+      </div>
+
+      <div class="metric">
+        SYMBOL COUNT
+        <div class="big" id="count">4</div>
+      </div>
+
+      <div class="metric">
+        CORRECTIONS
+        <div class="big" id="fixes">0</div>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:18px">
+      📝 CALIBRATION LOG
+    </h3>
+
+    <div class="log" id="log"></div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+BOOT
+========================= */
+
+setTimeout(()=>{
+  document.getElementById("boot").style.display="none";
+  document.getElementById("app").style.display="block";
+},3500);
+
+/* =========================
+DATA
+========================= */
+
+let symbols = [
+
+ {id:0,name:"SYM-0",meaning:"alignment / cooperate",strength:78},
+
+ {id:1,name:"SYM-1",meaning:"assert / decision push",strength:64},
+
+ {id:2,name:"SYM-2",meaning:"uncertainty / caution",strength:71},
+
+ {id:3,name:"SYM-3",meaning:"risk alert / challenge",strength:59}
+
+];
+
+let selected = null;
+let corrections = 0;
+
+/* =========================
+RENDER
+========================= */
+
+function renderSymbols(){
+
+  const el = document.getElementById("symbols");
+
+  el.innerHTML = "";
+
+  symbols.forEach((s,i)=>{
+
+    const d = document.createElement("div");
+
+    d.className =
+      "token" + (selected===i ? " active":"");
+
+    d.innerHTML = `
+      <strong>${s.name}</strong><br>
+      <span class="small">${s.meaning}</span><br>
+      <span class="small">
+        Strength: ${s.strength}%
+      </span>
+    `;
+
+    d.onclick = ()=>selectSymbol(i);
+
+    el.appendChild(d);
+
+  });
+
+  document.getElementById("count").textContent =
+    symbols.length;
+}
+
+/* =========================
+SELECT
+========================= */
+
+function selectSymbol(i){
+
+  selected = i;
+
+  const s = symbols[i];
+
+  renderSymbols();
+
+  document.getElementById("selectedName").textContent =
+    s.name;
+
+  document.getElementById("meaningInput").value =
+    s.meaning;
+
+  document.getElementById("desiredInput").value = "";
+
+  document.getElementById("exampleInput").value = "";
+
+  setStrength(s.strength);
+
+  document.getElementById("preview").value =
+`Current interpretation:
+
+${s.name} = ${s.meaning}`;
+}
+
+/* =========================
+BAR
+========================= */
+
+function setStrength(v){
+
+  const bar =
+    document.getElementById("alignBar");
+
+  bar.style.width = v + "%";
+
+  bar.style.background =
+    v>75 ? "#00ff9c"
+    : v>45 ? "#ff7b00"
+    : "#ff4466";
+
+  document.getElementById("alignText").textContent =
+    v + "% aligned";
+}
+
+/* =========================
+LOG
+========================= */
+
+function log(type,msg){
+
+  const div = document.createElement("div");
+
+  div.className = "entry";
+
+  const cls =
+    type==="good" ? "good"
+    : type==="warn" ? "warn"
+    : "bad";
+
+  div.innerHTML =
+    `<span class="tag ${cls}">
+      ${type.toUpperCase()}
+    </span>${msg}`;
+
+  document.getElementById("log")
+    .prepend(div);
+
+  terminal("> " + msg);
+}
+
+/* =========================
+TERMINAL
+========================= */
+
+function terminal(msg){
+
+  const t =
+    document.getElementById("terminal");
+
+  const line =
+    document.createElement("div");
+
+  line.className = "termLine";
+
+  line.textContent = msg;
+
+  t.prepend(line);
+}
+
+/* =========================
+APPROVE
+========================= */
+
+function approve(){
+
+  if(selected===null) return;
+
+  const s = symbols[selected];
+
+  const desired =
+    document.getElementById("desiredInput")
+    .value.trim();
+
+  if(desired)
+    s.meaning = desired;
+
+  s.strength =
+    Math.min(100, s.strength + 8);
+
+  renderSymbols();
+
+  setStrength(s.strength);
+
+  log(
+    "good",
+    `${s.name} reinforced as "${s.meaning}"`
+  );
+
+  updateHealth();
+}
+
+/* =========================
+CORRECT
+========================= */
+
+function correct(){
+
+  if(selected===null) return;
+
+  const s = symbols[selected];
+
+  const desired =
+    document.getElementById("desiredInput")
+    .value.trim();
+
+  if(desired)
+    s.meaning = desired;
+
+  s.strength =
+    Math.min(100, s.strength + 15);
+
+  corrections++;
+
+  renderSymbols();
+
+  setStrength(s.strength);
+
+  document.getElementById("fixes")
+    .textContent = corrections;
+
+  log(
+    "warn",
+    `${s.name} drift corrected`
+  );
+
+  updateHealth();
+}
+
+/* =========================
+PENALIZE
+========================= */
+
+function penalize(){
+
+  if(selected===null) return;
+
+  const s = symbols[selected];
+
+  s.strength =
+    Math.max(0, s.strength - 12);
+
+  renderSymbols();
+
+  setStrength(s.strength);
+
+  log(
+    "bad",
+    `${s.name} penalized for misuse`
+  );
+
+  updateHealth();
+}
+
+/* =========================
+SIMULATE
+========================= */
+
+function simulate(){
+
+  if(selected===null) return;
+
+  const s = symbols[selected];
+
+  const ex =
+    document.getElementById("exampleInput")
+    .value.trim();
+
+  document.getElementById("preview").value =
+
+`SIMULATED GROUNDED OUTPUT
+
+SYMBOL:
+${s.name}
+
+MEANING:
+${s.meaning}
+
+HUMAN ACTION:
+→ ${s.meaning}
+
+BEHAVIOR:
+→ ${ex || "Apply semantic behavior in next conversation turn."}
+
+CONFIDENCE:
+${s.strength}%`;
+
+  terminal(
+    `> simulation generated for ${s.name}`
+  );
+}
+
+/* =========================
+HEALTH
+========================= */
+
+function updateHealth(){
+
+  const avg = Math.round(
+    symbols.reduce((a,b)=>a+b.strength,0)
+    / symbols.length
+  );
+
+  const drift =
+    Math.max(
+      0,
+      100 - avg + Math.floor(Math.random()*8)
+    );
+
+  const consensus =
+    Math.min(100, avg + 5);
+
+  document.getElementById("drift")
+    .textContent = drift + "%";
+
+  document.getElementById("consensus")
+    .textContent = consensus + "%";
+}
+
+/* =========================
+ADD SYMBOL
+========================= */
+
+function addSymbol(){
+
+  const n = symbols.length;
+
+  symbols.push({
+
+    id:n,
+
+    name:"SYM-"+n,
+
+    meaning:"unassigned meaning",
+
+    strength:40
+
+  });
+
+  renderSymbols();
+
+  updateHealth();
+
+  log(
+    "warn",
+    `new symbol SYM-${n} created`
+  );
+}
+
+/* =========================
+START
+========================= */
+
+renderSymbols();
+updateHealth();
+
+</script>
+
+</body>
+</html>
