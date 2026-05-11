@@ -3,7 +3,7 @@
 [Demo](index.html)
 
 <p align="center">
-  <a href="(https://awakenfury.github.io/Grounding-Calibration-Console/)">
+  <a href="https://awakenfury.github.io/Grounding-Calibration-Console/">
     🌐 Live Demo
   </a>
 </p>
