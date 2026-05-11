@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Semantic Conflict Detection Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#020510;
+  color:#9ff;
+  font-family:'Rajdhani', monospace;
+}
+header{
+  padding:15px;
+  border-bottom:1px solid #00eaff;
+  text-align:center;
+  font-family:'Orbitron';
+}
+#main{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  padding:10px;
+}
+.panel{
+  border:1px solid rgba(0,234,255,.4);
+  padding:10px;
+  border-radius:8px;
+  background:rgba(0,255,255,.05);
+}
+textarea{
+  width:100%;
+  height:100px;
+  background:#011;
+  color:#9ff;
+  border:1px solid #00eaff;
+}
+.meter{
+  height:20px;
+  background:#011;
+  border-radius:10px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  transition:0.3s;
+}
+button{
+  margin-top:10px;
+  border:1px solid #00eaff;
+  background:none;
+  color:#00eaff;
+  padding:6px;
+  cursor:pointer;
+}
+button:hover{
+  background:#00eaff;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+
+<header>🧠 Semantic Conflict Detection (Real AI)</header>
+
+<div id="main">
+
+<div class="panel">
+<h3>👤 User A</h3>
+<textarea id="inputA">We should launch now</textarea>
+</div>
+
+<div class="panel">
+<h3>👤 User B</h3>
+<textarea id="inputB">This is too risky</textarea>
+</div>
+
+<div class="panel">
+<h3>🧠 System</h3>
+
+<div>⚠️ Conflict Level</div>
+<div class="meter"><div class="bar" id="bar"></div></div>
+<div id="score">Loading model...</div>
+
+<div style="margin-top:10px;">
+🧩 Mediation:<br>
+<span id="mediation">—</span>
+</div>
+
+<button onclick="run()">Analyze</button>
+
+</div>
+
+</div>
+
+
+<script type="module">
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+
+let embedder, classifier, sentiment, nli;
+
+// Load models
+async function load(){
+  embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+  classifier = await pipeline('text-classification', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english');
+  sentiment = classifier; // reuse for simplicity
+  nli = await pipeline('text-classification', 'Xenova/roberta-large-mnli');
+
+  document.getElementById("score").textContent = "Models ready";
+}
+load();
+
+// Cosine similarity
+function cosine(a, b){
+  let dot=0, magA=0, magB=0;
+  for(let i=0;i<a.length;i++){
+    dot+=a[i]*b[i];
+    magA+=a[i]*a[i];
+    magB+=b[i]*b[i];
+  }
+  return dot/(Math.sqrt(magA)*Math.sqrt(magB));
+}
+
+// Intent extraction (simple semantic heuristic)
+function detectIntent(text){
+  text = text.toLowerCase();
+
+  if(/launch|deploy|release/.test(text)) return "launch";
+  if(/delay|wait|later/.test(text)) return "delay";
+  if(/test|check|validate/.test(text)) return "test";
+  if(/risk|danger|issue|problem/.test(text)) return "risk";
+
+  return "neutral";
+}
+
+// Intent conflict logic
+function intentConflict(a, b){
+  if(a === b) return 0;
+
+  if((a==="launch" && b==="risk") || (a==="risk" && b==="launch")) return 0.9;
+  if((a==="launch" && b==="delay") || (a==="delay" && b==="launch")) return 0.8;
+  if((a==="launch" && b==="test")) return 0.6;
+
+  return 0.4;
+}
+
+// Main analysis
+window.run = async function(){
+
+  const textA = document.getElementById("inputA").value;
+  const textB = document.getElementById("inputB").value;
+
+  document.getElementById("score").textContent = "Analyzing...";
+
+  // Embeddings
+  const eA = await embedder(textA, { pooling:'mean', normalize:true });
+  const eB = await embedder(textB, { pooling:'mean', normalize:true });
+
+  const sim = cosine(eA.data, eB.data);
+
+  // Intent
+  const intentA = detectIntent(textA);
+  const intentB = detectIntent(textB);
+  const intentScore = intentConflict(intentA, intentB);
+
+  // Sentiment
+  const sA = await sentiment(textA);
+  const sB = await sentiment(textB);
+
+  const sentA = sA[0].label;
+  const sentB = sB[0].label;
+
+  let sentimentConflict = (sentA !== sentB) ? 0.4 : 0.1;
+
+  // NLI (contradiction vs entailment)
+  const nliResult = await nli({
+    premise: textA,
+    hypothesis: textB
+  });
+
+  let contradictionScore = 0;
+  const label = nliResult[0].label;
+
+  if(label === "CONTRADICTION") contradictionScore = 1;
+  if(label === "NEUTRAL") contradictionScore = 0.5;
+  if(label === "ENTAILMENT") contradictionScore = 0;
+
+  // Combine signals
+  let conflict =
+    (1 - sim) * 0.3 +
+    intentScore * 0.3 +
+    sentimentConflict * 0.1 +
+    contradictionScore * 0.3;
+
+  conflict = Math.min(1, conflict);
+
+  const percent = Math.round(conflict * 100);
+
+  // UI
+  const bar = document.getElementById("bar");
+  bar.style.width = percent + "%";
+  bar.style.background =
+    percent<30?"#00eaff":percent<70?"#ffaa00":"#ff4444";
+
+  document.getElementById("score").textContent =
+    `Conflict: ${percent}% | Intent: ${intentA} vs ${intentB} | NLI: ${label}`;
+
+  // Mediation (smarter)
+  let mediation;
+
+  if(percent > 75){
+    mediation = "High conflict: Reframe with shared goal → 'We both want success. How do we balance speed and risk?'";
+  } else if(percent > 45){
+    mediation = "Moderate conflict: Clarify assumptions → 'What risks are we most concerned about?'";
+  } else {
+    mediation = "Low conflict: Alignment is strong.";
+  }
+
+  document.getElementById("mediation").textContent = mediation;
+};
+</script>
+
+
+</body>
+</html>
