@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Neuro Collective Intelligence Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#020510;
+  color:#9ff;
+  font-family:'Rajdhani', monospace;
+}
+
+header{
+  padding:15px 25px;
+  border-bottom:1px solid #00eaff;
+  font-family:'Orbitron';
+  display:flex;
+  justify-content:space-between;
+}
+
+#main{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  height:calc(100vh - 60px);
+}
+
+.panel{
+  border:1px solid rgba(0,234,255,.4);
+  margin:10px;
+  padding:10px;
+  border-radius:8px;
+  background:rgba(0,255,255,.05);
+}
+
+h3{
+  font-family:'Orbitron';
+  margin-bottom:8px;
+}
+
+/* Thought Stream */
+#thoughtStream{
+  height:120px;
+  overflow:auto;
+  font-size:18px;
+}
+
+/* Prediction */
+.pred{
+  background:#022;
+  padding:5px;
+  margin:3px;
+  display:inline-block;
+  border-radius:4px;
+}
+
+/* Conflict Meter */
+.meter{
+  height:20px;
+  background:#011;
+  border:1px solid #00eaff;
+  border-radius:10px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  transition:0.3s;
+}
+
+/* Decision */
+.decision{
+  font-size:20px;
+  margin-top:10px;
+}
+
+/* Buttons */
+button{
+  background:none;
+  border:1px solid #00eaff;
+  color:#00eaff;
+  padding:6px 12px;
+  cursor:pointer;
+  margin-top:8px;
+}
+button:hover{
+  background:#00eaff;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <span>🧠 Neuro Collective Intelligence</span>
+  <span>LIVE DEMO</span>
+</header>
+
+<div id="main">
+
+<!-- LEFT -->
+<div>
+
+<div class="panel">
+<h3>🧠 Thought Stream</h3>
+<div id="thoughtStream"></div>
+</div>
+
+<div class="panel">
+<h3>⚡ Prediction</h3>
+<div id="predictions"></div>
+</div>
+
+<div class="panel">
+<h3>🧩 Mediation Suggestion</h3>
+<div id="mediation">No conflict detected</div>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div>
+
+<div class="panel">
+<h3>⚠️ Conflict Detection</h3>
+<div class="meter"><div class="bar" id="conflictBar"></div></div>
+<div id="conflictText">0%</div>
+</div>
+
+<div class="panel">
+<h3>⚖️ Decision Engine</h3>
+<div id="decision">Waiting...</div>
+<button onclick="simulateDecision()">Run Simulation</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// Sample thoughts
+const thoughts = [
+  "we should launch now",
+  "this might be risky",
+  "we need more testing",
+  "this is ready",
+  "delay could cost us"
+];
+
+// Prediction samples
+const predictions = [
+  ["launch", "delay", "test"],
+  ["risk", "problem", "issue"],
+  ["improve", "fix", "adjust"]
+];
+
+let stream = document.getElementById("thoughtStream");
+let predDiv = document.getElementById("predictions");
+
+function simulateThought(){
+  const t = thoughts[Math.floor(Math.random()*thoughts.length)];
+
+  // stream
+  stream.innerHTML += "> " + t + "<br>";
+  stream.scrollTop = stream.scrollHeight;
+
+  // predictions
+  predDiv.innerHTML="";
+  let p = predictions[Math.floor(Math.random()*predictions.length)];
+  p.forEach(w=>{
+    let el=document.createElement("div");
+    el.className="pred";
+    el.textContent=w;
+    predDiv.appendChild(el);
+  });
+
+  // conflict
+  let conflict = Math.random()*100;
+  let bar = document.getElementById("conflictBar");
+  bar.style.width = conflict+"%";
+  bar.style.background = conflict<30?"#00eaff":conflict<70?"#ffaa00":"#ff4444";
+  document.getElementById("conflictText").textContent = conflict.toFixed(0)+"%";
+
+  // mediation
+  if(conflict > 60){
+    document.getElementById("mediation").textContent =
+      "Suggested: 'I see your point, but we may want to consider risks before moving forward.'";
+  } else {
+    document.getElementById("mediation").textContent = "No conflict detected";
+  }
+}
+
+// Decision simulation
+function simulateDecision(){
+  const options = ["Launch Now", "Delay", "Test More"];
+  const choice = options[Math.floor(Math.random()*options.length)];
+  const confidence = (Math.random()*0.4+0.6).toFixed(2);
+
+  document.getElementById("decision").innerHTML =
+    "Recommended: <b>"+choice+"</b><br>Confidence: "+confidence;
+}
+
+// Loop
+setInterval(simulateThought, 2000);
+
+</script>
+
+</body>
+</html>
