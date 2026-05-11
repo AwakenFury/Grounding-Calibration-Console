@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-User Conflict Simulation</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#020510;
+  color:#9ff;
+  font-family:'Rajdhani', monospace;
+}
+
+header{
+  padding:15px;
+  border-bottom:1px solid #00eaff;
+  font-family:'Orbitron';
+  text-align:center;
+}
+
+#main{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  padding:10px;
+  height:calc(100vh - 60px);
+}
+
+.panel{
+  border:1px solid rgba(0,234,255,.4);
+  padding:10px;
+  border-radius:8px;
+  background:rgba(0,255,255,.05);
+  display:flex;
+  flex-direction:column;
+}
+
+h3{
+  font-family:'Orbitron';
+  margin-bottom:8px;
+}
+
+textarea{
+  width:100%;
+  height:100px;
+  background:#011;
+  color:#9ff;
+  border:1px solid #00eaff;
+  padding:6px;
+  resize:none;
+}
+
+.meter{
+  height:20px;
+  background:#011;
+  border:1px solid #00eaff;
+  border-radius:10px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  transition:0.3s;
+}
+
+.output{
+  margin-top:10px;
+  font-size:14px;
+}
+
+button{
+  margin-top:auto;
+  background:none;
+  border:1px solid #00eaff;
+  color:#00eaff;
+  padding:6px;
+  cursor:pointer;
+}
+button:hover{
+  background:#00eaff;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🧠 Multi-User Conflict Simulation (A vs B)
+</header>
+
+<div id="main">
+
+<!-- USER A -->
+<div class="panel">
+<h3>👤 User A</h3>
+<textarea id="inputA">We should launch now</textarea>
+<div class="output">Intent: <span id="intentA"></span></div>
+</div>
+
+<!-- USER B -->
+<div class="panel">
+<h3>👤 User B</h3>
+<textarea id="inputB">This is too risky</textarea>
+<div class="output">Intent: <span id="intentB"></span></div>
+</div>
+
+<!-- SYSTEM -->
+<div class="panel">
+<h3>🧠 System</h3>
+
+<div>⚠️ Conflict Level</div>
+<div class="meter"><div class="bar" id="conflictBar"></div></div>
+<div id="conflictText">0%</div>
+
+<div class="output">
+🧩 Mediation:<br>
+<span id="mediation">—</span>
+</div>
+
+<div class="output">
+⚖️ Decision:<br>
+<span id="decision">—</span>
+</div>
+
+<button onclick="runSimulation()">Run Simulation</button>
+
+</div>
+
+</div>
+
+<script>
+
+// Simple keyword-based intent detection
+function getIntent(text){
+  text = text.toLowerCase();
+  if(text.includes("launch")) return "launch";
+  if(text.includes("delay")) return "delay";
+  if(text.includes("risk")) return "risk";
+  if(text.includes("test")) return "test";
+  return "neutral";
+}
+
+// Conflict scoring
+function getConflict(a, b){
+  if(a === b) return 10;
+  if((a==="launch" && b==="risk") || (a==="risk" && b==="launch")) return 85;
+  if((a==="launch" && b==="delay") || (a==="delay" && b==="launch")) return 70;
+  if((a==="test" && b==="launch")) return 60;
+  return 40;
+}
+
+// Mediation generator
+function mediate(aText, bText){
+  return `Suggestion: "I understand your perspective. Maybe we can balance speed and risk before deciding."`;
+}
+
+// Decision engine
+function decide(a, b){
+  if(a==="launch" && b==="risk") return "Recommendation: Test More (0.78 confidence)";
+  if(a==="launch" && b==="delay") return "Recommendation: Delay (0.72 confidence)";
+  if(a==="test" || b==="test") return "Recommendation: Test More (0.81 confidence)";
+  return "Recommendation: Further Discussion Needed";
+}
+
+function runSimulation(){
+
+  let textA = document.getElementById("inputA").value;
+  let textB = document.getElementById("inputB").value;
+
+  let intentA = getIntent(textA);
+  let intentB = getIntent(textB);
+
+  document.getElementById("intentA").textContent = intentA;
+  document.getElementById("intentB").textContent = intentB;
+
+  let conflict = getConflict(intentA, intentB);
+
+  let bar = document.getElementById("conflictBar");
+  bar.style.width = conflict + "%";
+  bar.style.background = conflict<30?"#00eaff":conflict<70?"#ffaa00":"#ff4444";
+
+  document.getElementById("conflictText").textContent = conflict + "%";
+
+  if(conflict > 60){
+    document.getElementById("mediation").textContent = mediate(textA, textB);
+  } else {
+    document.getElementById("mediation").textContent = "No mediation needed";
+  }
+
+  document.getElementById("decision").textContent = decide(intentA, intentB);
+}
+
+</script>
+
+</body>
+</html>
