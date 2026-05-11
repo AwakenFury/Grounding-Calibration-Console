@@ -1,6 +1,19 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
-# Grounding Calibration Console
+🧬 CORE OVERVIEW
+
+A browser-based cybernetic simulation console for exploring:
+
+ - Symbol grounding systems
+ - Alignment drift behavior
+ - Human-in-the-loop feedback control
+ - Semantic stability scoring
+
+This is not an AI model.
+
+It is a synthetic alignment simulation environment designed to visually and interactively mimic conceptual AI training dynamics.
+
+# 🧠⚡ Grounding Calibration Console
 
 A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
