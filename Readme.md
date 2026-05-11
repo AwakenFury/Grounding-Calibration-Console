@@ -1,6 +1,6 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
-🧬 CORE OVERVIEW
+## 🧬 CORE OVERVIEW
 
 A browser-based cybernetic simulation console for exploring:
 
