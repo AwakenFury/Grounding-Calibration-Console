@@ -1,4 +1,4 @@
-![Neural Cursor Banner](assets/Cyber_Glove.png)
+![Neural Cursor Banner](assets/Human-In-The-Loop.png)
 
 # Grounding Calibration Console
 
