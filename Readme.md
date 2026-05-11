@@ -31,7 +31,11 @@ Features
  - It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
  - Nothing here is real AI training—it’s a front-end simulation UI.
 
-
+## 🖥️ HUD INTERFACE MODULES
+🔷 SYMBOL REGISTRY PANEL
+ - Dynamic symbol generation (SYM-0 → SYM-N)
+ - Visual encoding of abstract representations
+ - Assignable semantic weights
 
 ## What this is “conceptually” Even though it looks AI-related, it is actually:
 
