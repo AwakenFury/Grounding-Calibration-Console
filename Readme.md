@@ -90,34 +90,9 @@ Features
  - Visual encoding of abstract representations
  - Assignable semantic weights
 
-## What this is “conceptually” Even though it looks AI-related, it is actually:
-
-✔ A simulation of:
-
-Symbol grounding
- - Alignment scoring
- - Drift correction
- - Human feedback loop
-
-❌ But NOT:
-
- - Real machine learning
- - Real model training
- - Real embeddings or AI memory
-
-
 ## Purpose
 This is a conceptual UI prototype for experimenting with:
 - semantic alignment systems
 - symbolic representation drift
 - human feedback loops
 
-
-
-🟢 SYSTEM BOOT SEQUENCE
-INITIALIZING CALIBRATION CONSOLE...
-LOADING SYMBOL REGISTRY... ██████████ 100%
-ESTABLISHING HUMAN FEEDBACK LOOP...
-ALIGNMENT ENGINE: ONLINE
-DRIFT MODEL: ACTIVE
-STATUS: STABLE (SIMULATION MODE)
