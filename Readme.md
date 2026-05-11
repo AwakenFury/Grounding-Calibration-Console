@@ -1,5 +1,12 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
+## What this project is:
+
+ - The page is a mock “AI alignment / symbol calibration console”.
+ - It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
+ - Nothing here is real AI training—it’s a front-end simulation UI.
+
+
 ## 🧬 CORE OVERVIEW
 
 A browser-based cybernetic simulation console for exploring:
@@ -78,11 +85,7 @@ Features
  - Interactive calibration logging
  - Cyberpunk-style UI dashboard
 
-## What this project is:
 
- - The page is a mock “AI alignment / symbol calibration console”.
- - It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
- - Nothing here is real AI training—it’s a front-end simulation UI.
 
 ## 🖥️ HUD INTERFACE MODULES
 🔷 SYMBOL REGISTRY PANEL
