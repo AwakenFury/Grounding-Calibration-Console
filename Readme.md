@@ -1,6 +1,5 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
-[Demo](index.html)
 
 <p align="center">
   <a href="https://awakenfury.github.io/Grounding-Calibration-Console/">
