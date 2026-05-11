@@ -58,14 +58,14 @@ It is a synthetic alignment simulation environment designed to visually and inte
 
 ## 🖥️ Live Demo
 
-👉 https://github.com/AwakenFury/Grounding-Calibration-Console
+👉 https://github.com/AwakenFury/Grounding-Calibration-Console/
 
 ---
 
 ## 🏗️ Project Structure
 
 ```bash
-Cyber-Bio-Security/
+Grounding Calibration Console/
 │
 └── assets/
     └── Human_In_The_Loop.png   # System architecture visualization
