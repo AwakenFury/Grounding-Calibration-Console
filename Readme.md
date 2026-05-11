@@ -1,4 +1,4 @@
-![Grounding-Calibration-Console](assets/Human-In-The-Loop.png)
+![Grounding-Calibration-Console](assets/Human_In_The_Loop.png)
 
 # Grounding Calibration Console
 
