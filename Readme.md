@@ -80,8 +80,10 @@ Grounding Calibration Console/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/AwakenFury/Cyber-Bio-Security.git
-cd Cyber-Bio-Security
+git clone https://github.com/AwakenFury/Grounding Calibration Console
+.git
+cd Grounding Calibration Console
+
 ```
 
 ### 2. Run locally
@@ -97,23 +99,6 @@ Or run a simple server:
 ```bash
 python3 -m http.server
 ```
-
----
-
-## 🧪 How It Works
-
-The system simulates a **cyber-biological network** using:
-
-* **Nodes** → body parts and system components
-* **Paths** → neural and network connections
-* **Signals** → normal system activity
-* **Threats** → anomalies propagating through the system
-
-A continuous animation loop renders:
-
-* Signal flow
-* Threat movement
-* System state changes
 
 ---
 
