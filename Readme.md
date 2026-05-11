@@ -37,7 +37,7 @@ It is a synthetic alignment simulation environment designed to visually and inte
  - Drift correction mechanics
  - Interactive calibration logg
 
-## ⚡ Real-time simulation feedback
+# ⚡ Real-time simulation feedback
 
 ## 🧬 PURPOSE
 This project is designed as a conceptual experimentation layer for:
@@ -121,42 +121,3 @@ ESTABLISHING HUMAN FEEDBACK LOOP...
 ALIGNMENT ENGINE: ONLINE
 DRIFT MODEL: ACTIVE
 STATUS: STABLE (SIMULATION MODE)
-🧬 CORE OVERVIEW
-
-A browser-based cybernetic simulation console for exploring:
-
-Symbol grounding systems
-Alignment drift behavior
-Human-in-the-loop feedback control
-Semantic stability scoring
-
-This is not an AI model.
-
-It is a synthetic alignment simulation environment designed to visually and interactively mimic conceptual AI training dynamics.
-
-🖥️ HUD INTERFACE MODULES
-🔷 SYMBOL REGISTRY PANEL
-Dynamic symbol generation (SYM-0 → SYM-N)
-Visual encoding of abstract representations
-Assignable semantic weights
-🔶 ALIGNMENT ENGINE
-Real-time alignment strength visualization
-Stability scoring system
-Feedback-driven recalibration loop
-🔴 DRIFT DETECTION SYSTEM
-Tracks divergence of symbolic meaning over time
-Simulates semantic decay
-Triggers corrective calibration events
-🟣 HUMAN FEEDBACK LOOP
-User-driven correction inputs
-Reinforcement-based adjustment simulation
-Logs interaction history as “alignment memory”
-📡 SYSTEM BEHAVIOR MODEL
-
-The console simulates three interacting systems:
-
-Symbol generation layer
-Drift + instability dynamics
-Human correction feedback loop
-
-Together they form a closed-loop symbolic alignment simulator.
