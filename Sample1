@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Group Conflict Graph</title>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#020510;
+  color:#9ff;
+  font-family:'Rajdhani', monospace;
+}
+
+header{
+  padding:12px;
+  text-align:center;
+  border-bottom:1px solid #00eaff;
+  font-family:'Orbitron';
+}
+
+#layout{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  height:calc(100vh - 50px);
+}
+
+#inputs{
+  padding:10px;
+  border-right:1px solid #00eaff;
+}
+
+textarea{
+  width:100%;
+  height:60px;
+  margin-bottom:10px;
+  background:#011;
+  color:#9ff;
+  border:1px solid #00eaff;
+  padding:5px;
+}
+
+.node{
+  stroke:#00eaff;
+  stroke-width:2px;
+}
+
+.link{
+  stroke-opacity:0.8;
+}
+
+.label{
+  fill:#9ff;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🌐 Group Conflict Graph (Live Tension Visualization)</header>
+
+<div id="layout">
+
+<div id="inputs">
+<h3>👥 Users</h3>
+
+<textarea id="u0">We should launch now</textarea>
+<textarea id="u1">This is too risky</textarea>
+<textarea id="u2">We need more testing first</textarea>
+<textarea id="u3">Let’s move fast</textarea>
+<textarea id="u4">We should wait a bit</textarea>
+
+</div>
+
+<svg id="graph"></svg>
+
+</div>
+
+<script type="module">
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+
+const embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+
+const svg = d3.select("#graph");
+const width = window.innerWidth - 300;
+const height = window.innerHeight - 50;
+
+svg.attr("width", width).attr("height", height);
+
+const users = [0,1,2,3,4];
+
+// Cosine similarity
+function cosine(a,b){
+  let dot=0, magA=0, magB=0;
+  for(let i=0;i<a.length;i++){
+    dot+=a[i]*b[i];
+    magA+=a[i]*a[i];
+    magB+=b[i]*b[i];
+  }
+  return dot/(Math.sqrt(magA)*Math.sqrt(magB));
+}
+
+// Compute embeddings
+async function getEmbeddings(){
+  const vectors = [];
+  for(let i of users){
+    const text = document.getElementById("u"+i).value;
+    const emb = await embedder(text, { pooling:'mean', normalize:true });
+    vectors.push(emb.data);
+  }
+  return vectors;
+}
+
+// Build graph
+async function update(){
+
+  const vectors = await getEmbeddings();
+
+  const nodes = users.map(i => ({ id:i }));
+
+  const links = [];
+
+  for(let i=0;i<users.length;i++){
+    for(let j=i+1;j<users.length;j++){
+      const sim = cosine(vectors[i], vectors[j]);
+      const conflict = 1 - sim;
+
+      links.push({
+        source:i,
+        target:j,
+        conflict
+      });
+    }
+  }
+
+  render(nodes, links);
+}
+
+// Render graph
+function render(nodes, links){
+
+  svg.selectAll("*").remove();
+
+  const simulation = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(d=>d.id).distance(150))
+    .force("charge", d3.forceManyBody().strength(-200))
+    .force("center", d3.forceCenter(width/2, height/2));
+
+  const link = svg.append("g")
+    .selectAll("line")
+    .data(links)
+    .enter()
+    .append("line")
+    .attr("class","link")
+    .attr("stroke", d=>{
+      if(d.conflict < 0.3) return "#00eaff";
+      if(d.conflict < 0.6) return "#ffaa00";
+      return "#ff4444";
+    })
+    .attr("stroke-width", d=> 2 + d.conflict*6);
+
+  const node = svg.append("g")
+    .selectAll("circle")
+    .data(nodes)
+    .enter()
+    .append("circle")
+    .attr("r", 12)
+    .attr("class","node")
+    .call(d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended)
+    );
+
+  const label = svg.append("g")
+    .selectAll("text")
+    .data(nodes)
+    .enter()
+    .append("text")
+    .attr("class","label")
+    .text(d=>"User "+d.id);
+
+  simulation.on("tick", () => {
+
+    link
+      .attr("x1", d=>d.source.x)
+      .attr("y1", d=>d.source.y)
+      .attr("x2", d=>d.target.x)
+      .attr("y2", d=>d.target.y);
+
+    node
+      .attr("cx", d=>d.x)
+      .attr("cy", d=>d.y);
+
+    label
+      .attr("x", d=>d.x + 14)
+      .attr("y", d=>d.y + 4);
+  });
+
+  function dragstarted(event, d){
+    if(!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(event, d){
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+
+  function dragended(event, d){
+    if(!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+}
+
+// Live updates
+document.querySelectorAll("textarea").forEach(t=>{
+  t.addEventListener("input", update);
+});
+
+// Initial render
+update();
+
+</script>
+
+</body>
+</html>
