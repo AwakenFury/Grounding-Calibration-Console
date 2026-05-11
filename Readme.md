@@ -1,4 +1,15 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
+🧠⚡ Grounding Calibration Console
+A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
+
+Features
+
+Symbol inventory system
+Alignment strength simulation
+Drift correction mechanics
+Interactive calibration logging
+Cyberpunk-style UI dashboard
+
 
 ## 🧬 CORE OVERVIEW
 
@@ -65,20 +76,6 @@ Drift: Controlled
 Alignment: Semi-stable
 Feedback Loop: Online
 Console: Operational
-
-### 🧠⚡ Grounding Calibration Console
-
-A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
-
-Features
-
- - Symbol inventory system
- - Alignment strength simulation
- - Drift correction mechanics
- - Interactive calibration logging
- - Cyberpunk-style UI dashboard
-
-
 
 ## 🖥️ HUD INTERFACE MODULES
 🔷 SYMBOL REGISTRY PANEL
