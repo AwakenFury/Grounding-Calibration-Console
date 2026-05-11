@@ -1,5 +1,11 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
+<p align="center">
+  <a href="https://awakenfury.github.io/Grounding-Calibration-Console/">
+    🌐 Live Demo
+  </a>
+</p>
+
 ## 🧠⚡ Grounding Calibration Console
 A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
