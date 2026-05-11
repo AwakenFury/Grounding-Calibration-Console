@@ -1,5 +1,14 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
+## 🧬 CORE OVERVIEW
+
+A browser-based cybernetic simulation console for exploring:
+
+ - Symbol grounding systems
+ - Alignment drift behavior
+ - Human-in-the-loop feedback control
+ - Semantic stability scoring
+
 ## What this project is:
 
  - The page is a mock “AI alignment / symbol calibration console”.
@@ -32,15 +41,6 @@ It is a synthetic alignment simulation environment designed to visually and inte
  - Drift correction mechanics
  - Interactive calibration logg
 
-## 🧬 CORE OVERVIEW
-
-A browser-based cybernetic simulation console for exploring:
-
- - Symbol grounding systems
- - Alignment drift behavior
- - Human-in-the-loop feedback control
- - Semantic stability scoring
-
 # ⚡ Real-time simulation feedback
 
 ## 🧬 PURPOSE
@@ -50,9 +50,6 @@ This project is designed as a conceptual experimentation layer for:
  - Human-machine semantic feedback systems
  - Symbolic cognition simulation
  - Drift behavior modeling
-
-## 🛰️ ARCHITECTURE (SIMPLIFIED)
-User Input   ↓Symbol Engine   ↓Alignment Model   ↓Drift Simulation Layer   ↓Feedback Controller   ↓System State Update
 
 ## 🔒 DESIGN PHILOSOPHY
 “Meaning is not stored — it is continuously stabilized.”
@@ -68,7 +65,6 @@ Drift: Controlled
 Alignment: Semi-stable
 Feedback Loop: Online
 Console: Operational
-
 
 ### 🧠⚡ Grounding Calibration Console
 
