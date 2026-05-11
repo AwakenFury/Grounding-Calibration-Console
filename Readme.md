@@ -60,14 +60,6 @@ It is a synthetic alignment simulation environment designed to visually and inte
  - Drift correction mechanics
  - Interactive calibration logg
 
-# ⚡ Real-time simulation feedback
-
-
-## 🖥️ Live Demo
-
-👉 https://github.com/AwakenFury/Grounding-Calibration-Console/index.html
-
----
 
 ## 🏗️ Project Structure
 
