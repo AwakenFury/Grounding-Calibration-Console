@@ -1,5 +1,6 @@
 ![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
-🧠⚡ Grounding Calibration Console
+
+## 🧠⚡ Grounding Calibration Console
 A browser-based simulation UI for exploring symbolic alignment, drift correction, and human-in-the-loop semantic tuning.
 
 Features
