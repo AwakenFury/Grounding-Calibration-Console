@@ -67,10 +67,10 @@ It is a synthetic alignment simulation environment designed to visually and inte
 ```bash
 Cyber-Bio-Security/
 │
-├── index.html        # Main dashboard + simulation engine
-├── README.md         # Project documentation
 └── assets/
-    └── diagram.png   # System architecture visualization
+    └── Human_In_The_Loop.png   # System architecture visualization
+├── README.md         # Project documentation
+└── index.html
 ```
 
 ---
