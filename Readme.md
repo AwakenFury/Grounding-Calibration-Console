@@ -6,16 +6,6 @@
  - It pretends you are managing abstract “symbols” (SYM-0, SYM-1, etc.) and adjusting their meaning and “alignment strength.”
  - Nothing here is real AI training—it’s a front-end simulation UI.
 
-
-## 🧬 CORE OVERVIEW
-
-A browser-based cybernetic simulation console for exploring:
-
- - Symbol grounding systems
- - Alignment drift behavior
- - Human-in-the-loop feedback control
- - Semantic stability scoring
-
 ## This is not an AI model.
 
 It is a synthetic alignment simulation environment designed to visually and interactively mimic conceptual AI training dynamics.
@@ -27,8 +17,6 @@ It is a synthetic alignment simulation environment designed to visually and inte
  - Alignment stability systems
  - Feedback-based correction loops
  - Drift and entropy modeling
-
-
 
 ## ❌ WHAT THIS IS NOT
 
@@ -43,6 +31,15 @@ It is a synthetic alignment simulation environment designed to visually and inte
  - Alignment strength visualization
  - Drift correction mechanics
  - Interactive calibration logg
+
+## 🧬 CORE OVERVIEW
+
+A browser-based cybernetic simulation console for exploring:
+
+ - Symbol grounding systems
+ - Alignment drift behavior
+ - Human-in-the-loop feedback control
+ - Semantic stability scoring
 
 # ⚡ Real-time simulation feedback
 
