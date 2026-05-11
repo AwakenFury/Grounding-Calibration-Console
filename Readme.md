@@ -14,7 +14,7 @@ This is not an AI model.
 It is a synthetic alignment simulation environment designed to visually and interactively mimic conceptual AI training dynamics.
 
 ## 🧪 WHAT THIS IS
-##✔ A visual + interactive simulation of:
+✔ A visual + interactive simulation of:
 
  - Symbol grounding concepts
  - Alignment stability systems
