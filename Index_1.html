@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Collective Grounding System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#020510;
+  --panel:rgba(0,255,255,.05);
+  --line:rgba(0,234,255,.3);
+  --cyan:#00eaff;
+  --green:#00ff88;
+  --yellow:#ffaa00;
+  --red:#ff4466;
+  --text:#bffcff;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#081120,#020510 60%);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+}
+
+header{
+  padding:18px;
+  border-bottom:1px solid var(--line);
+  text-align:center;
+  font-family:'Orbitron';
+}
+
+header h1{
+  margin:0;
+  color:var(--cyan);
+  font-size:26px;
+}
+
+header p{
+  margin-top:6px;
+  opacity:.8;
+}
+
+#layout{
+  display:grid;
+  grid-template-columns:300px 1fr 380px;
+  gap:12px;
+  padding:12px;
+}
+
+.panel{
+  border:1px solid var(--line);
+  background:var(--panel);
+  border-radius:12px;
+  padding:12px;
+  backdrop-filter:blur(6px);
+}
+
+h2{
+  margin:0 0 10px;
+  color:var(--cyan);
+  font-size:18px;
+}
+
+.symbol{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.symbol:hover,.symbol.active{
+  border-color:var(--cyan);
+  box-shadow:0 0 10px rgba(0,234,255,.2);
+}
+
+.small{
+  font-size:13px;
+  opacity:.8;
+}
+
+input,textarea{
+  width:100%;
+  background:#011018;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px;
+  font-family:inherit;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+button{
+  border:1px solid var(--cyan);
+  background:none;
+  color:var(--cyan);
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+button:hover{
+  background:var(--cyan);
+  color:#001018;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.vote{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px;
+  margin-top:8px;
+}
+
+.user{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:6px 0;
+}
+
+.badge{
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+  color:#001018;
+}
+
+.good{background:var(--green)}
+.warn{background:var(--yellow)}
+.bad{background:var(--red)}
+
+.bar{
+  height:18px;
+  background:#011018;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  transition:.3s;
+}
+
+.log{
+  max-height:350px;
+  overflow:auto;
+  border-top:1px solid var(--line);
+  margin-top:10px;
+  padding-top:10px;
+}
+
+.entry{
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:8px 0;
+  font-size:13px;
+}
+
+.kpi{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.metric{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+}
+
+.big{
+  font-size:22px;
+  color:var(--cyan);
+}
+
+.consensus{
+  margin-top:10px;
+}
+
+.live{
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:1}
+  50%{opacity:.5}
+  100%{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🌐 Collective Grounding Calibration System</h1>
+<p>Multi-user semantic alignment • Shared symbol governance • Real-time consensus shaping</p>
+</header>
+
+<div id="layout">
+
+<!-- LEFT -->
+<div class="panel">
+
+<h2>🔤 Shared Symbol Space</h2>
+
+<div id="symbols"></div>
+
+<button onclick="createSymbol()">+ Create Symbol</button>
+
+</div>
+
+<!-- CENTER -->
+<div class="panel">
+
+<h2>🧠 Collaborative Calibration</h2>
+
+<div class="small">Selected Symbol</div>
+<div id="selected" style="margin-bottom:10px;">None</div>
+
+<div class="small">Current Meaning</div>
+<input id="meaning">
+
+<div class="small" style="margin-top:10px;">Proposed Meaning</div>
+<input id="proposal" placeholder="e.g. cooperative uncertainty">
+
+<div class="small" style="margin-top:10px;">Behavior Description</div>
+<textarea id="behavior"></textarea>
+
+<div class="grid2" style="margin-top:10px;">
+<button onclick="submitProposal()">📤 Submit Proposal</button>
+<button onclick="simulate()">🧪 Simulate Meaning</button>
+<button onclick="vote(true)">👍 Approve</button>
+<button onclick="vote(false)">👎 Reject</button>
+</div>
+
+<div class="consensus">
+<h2 style="margin-top:18px;">⚖️ Consensus Strength</h2>
+
+<div class="bar">
+<div class="fill" id="consensusBar"></div>
+</div>
+
+<div id="consensusText" class="small">0%</div>
+</div>
+
+<h2 style="margin-top:18px;">🧬 Live Semantic Interpretation</h2>
+
+<textarea id="preview" readonly></textarea>
+
+</div>
+
+<!-- RIGHT -->
+<div class="panel">
+
+<h2>👥 Active Participants <span class="live">● LIVE</span></h2>
+
+<div id="users"></div>
+
+<h2 style="margin-top:18px;">📊 System Metrics</h2>
+
+<div class="kpi">
+
+<div class="metric">
+Drift Risk
+<div class="big" id="drift">18%</div>
+</div>
+
+<div class="metric">
+Consensus
+<div class="big" id="consensusMetric">82%</div>
+</div>
+
+<div class="metric">
+Active Symbols
+<div class="big" id="symbolCount">4</div>
+</div>
+
+<div class="metric">
+Proposals
+<div class="big" id="proposalCount">0</div>
+</div>
+
+</div>
+
+<h2 style="margin-top:18px;">📝 Governance Log</h2>
+
+<div class="log" id="log"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const users = [
+  {name:"Alex", trust:0.91},
+  {name:"Sam", trust:0.84},
+  {name:"Jordan", trust:0.78},
+  {name:"Taylor", trust:0.88}
+];
+
+const symbols = [
+  {id:0,name:"SYM-0",meaning:"cooperative alignment",strength:82,votes:0},
+  {id:1,name:"SYM-1",meaning:"assertive push",strength:61,votes:0},
+  {id:2,name:"SYM-2",meaning:"uncertainty / caution",strength:73,votes:0},
+  {id:3,name:"SYM-3",meaning:"risk challenge",strength:54,votes:0}
+];
+
+let selected = null;
+let proposals = 0;
+
+function renderUsers(){
+
+  const el = document.getElementById("users");
+  el.innerHTML = "";
+
+  users.forEach(u=>{
+
+    const div = document.createElement("div");
+    div.className = "user";
+
+    div.innerHTML = `
+      <span>${u.name}</span>
+      <span class="badge good">
+        trust ${Math.round(u.trust*100)}%
+      </span>
+    `;
+
+    el.appendChild(div);
+  });
+}
+
+function renderSymbols(){
+
+  const el = document.getElementById("symbols");
+  el.innerHTML = "";
+
+  symbols.forEach((s,i)=>{
+
+    const div = document.createElement("div");
+
+    div.className =
+      "symbol" + (selected===i ? " active":"");
+
+    div.innerHTML = `
+      <strong>${s.name}</strong><br>
+      <span class="small">${s.meaning}</span><br>
+      <span class="small">
+      alignment ${s.strength}%
+      </span>
+    `;
+
+    div.onclick = ()=>selectSymbol(i);
+
+    el.appendChild(div);
+  });
+
+  document.getElementById("symbolCount").textContent =
+    symbols.length;
+}
+
+function selectSymbol(i){
+
+  selected = i;
+
+  const s = symbols[i];
+
+  document.getElementById("selected").textContent =
+    s.name;
+
+  document.getElementById("meaning").value =
+    s.meaning;
+
+  document.getElementById("proposal").value = "";
+
+  document.getElementById("behavior").value = "";
+
+  updateConsensus(s.strength);
+
+  renderSymbols();
+}
+
+function updateConsensus(v){
+
+  const fill =
+    document.getElementById("consensusBar");
+
+  fill.style.width = v + "%";
+
+  fill.style.background =
+    v>75 ? "#00ff88" :
+    v>45 ? "#ffaa00" :
+    "#ff4466";
+
+  document.getElementById("consensusText")
+    .textContent =
+      v + "% semantic agreement";
+
+  document.getElementById("consensusMetric")
+    .textContent =
+      v + "%";
+}
+
+function log(msg){
+
+  const div = document.createElement("div");
+
+  div.className = "entry";
+
+  div.innerHTML = msg;
+
+  document.getElementById("log")
+    .prepend(div);
+}
+
+function submitProposal(){
+
+  if(selected===null) return;
+
+  const proposal =
+    document.getElementById("proposal")
+      .value.trim();
+
+  if(!proposal) return;
+
+  proposals++;
+
+  document.getElementById("proposalCount")
+    .textContent = proposals;
+
+  log(`
+    🧠 Proposal submitted for
+    <strong>${symbols[selected].name}</strong>:
+    "${proposal}"
+  `);
+
+  document.getElementById("preview")
+    .value =
+`
+COLLABORATIVE INTERPRETATION
+
+Current:
+${symbols[selected].meaning}
+
+Proposed:
+${proposal}
+
+Awaiting group consensus...
+`;
+}
+
+function vote(approve){
+
+  if(selected===null) return;
+
+  const s = symbols[selected];
+
+  if(approve){
+
+    s.strength =
+      Math.min(100, s.strength + 6);
+
+    log(`
+      👍 Group reinforced
+      <strong>${s.name}</strong>
+    `);
+
+  } else {
+
+    s.strength =
+      Math.max(0, s.strength - 10);
+
+    log(`
+      👎 Group rejected semantic alignment for
+      <strong>${s.name}</strong>
+    `);
+  }
+
+  updateConsensus(s.strength);
+
+  renderSymbols();
+
+  updateDrift();
+}
+
+function simulate(){
+
+  if(selected===null) return;
+
+  const proposal =
+    document.getElementById("proposal")
+      .value || symbols[selected].meaning;
+
+  const behavior =
+    document.getElementById("behavior")
+      .value || "adaptive collaborative response";
+
+  document.getElementById("preview")
+    .value =
+`
+LIVE SEMANTIC SIMULATION
+
+Symbol:
+${symbols[selected].name}
+
+Grounded Meaning:
+${proposal}
+
+Behavioral Effect:
+→ ${behavior}
+
+Predicted Multi-Agent Outcome:
+→ Increased coordination
+→ Reduced semantic ambiguity
+→ Higher group trust alignment
+
+Confidence:
+${symbols[selected].strength}%
+`;
+}
+
+function updateDrift(){
+
+  const avg =
+    Math.round(
+      symbols.reduce((a,b)=>a+b.strength,0)
+      / symbols.length
+    );
+
+  const drift =
+    Math.max(
+      0,
+      100 - avg + Math.floor(Math.random()*5)
+    );
+
+  document.getElementById("drift")
+    .textContent =
+      drift + "%";
+}
+
+function createSymbol(){
+
+  const n = symbols.length;
+
+  symbols.push({
+    id:n,
+    name:"SYM-"+n,
+    meaning:"unassigned semantic direction",
+    strength:40,
+    votes:0
+  });
+
+  renderSymbols();
+
+  log(`
+    🌱 New shared symbol created:
+    <strong>SYM-${n}</strong>
+  `);
+}
+
+renderUsers();
+renderSymbols();
+updateDrift();
+
+</script>
+
+</body>
+</html>
