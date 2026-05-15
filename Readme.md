@@ -1,5 +1,7 @@
-![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
 
+![Grounding-Calibration-Console](asset/Human_In_The_Loop.png)
+![Status](https://img.shields.io/badge/status-experimental-red)
+![ESP32](https://img.shields.io/badge/platform-ESP32-blue)
 
 <p align="center">
   <a href="https://awakenfury.github.io/Grounding-Calibration-Console/">
